@@ -20,5 +20,22 @@ public class StairCaseProblem {
 		}
 		return result[n];
 	}
+	
+	/*  top down:
+	 *  //global 
+	HashMap<Integer, Integer> hash = new HashMap<Integer, Integer>();
+	int numOfWays(int n) {
+		if(n == 0) return 1;
+		if (n == 1) return 1;
+		//	int val = hash.get(n-1) + hash.get(n-2);
+		//hash.add(n, val);
+		//Test if in the hash table → return from hash table
+		if (containsKey(n) ) {
+			return hash.get(n);
+		}
+		return hash.put (n,  numOfWays(n-1) + numOfWays(n - 2)); 
+	            // save back the hash table
+	}*/
+
 
 }
