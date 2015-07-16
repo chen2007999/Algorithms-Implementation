@@ -17,13 +17,16 @@ public class ThreeSum {
 	
 	
 	public static void main(String[] args) {
-		int[] array = {1,3,4,2,6,7,9,10};
-		int target = 20;
-		System.out.println(findClosetSum(array, target));
+		int[] array1 = {1,3,4,2,6,7,9,10};
+		int target1 = 20;
+		System.out.println(findClosetSum1(array1, target1));
+		int[] array2 = {1,3,4,2,6,7,9,10};
+		int target2 = -10;
+		System.out.println(findClosetSum1(array2, target2));
 	}
 
 	// Brute force way takes O(n^3) where n is the number of elements in the array;
-	public static int findClosetSum(int[] array, int target) {
+	public static int findClosetSum1(int[] array, int target) {
 		int closet = array[0] + array[1] + array[2];
 		for(int i=0; i<array.length; i++) {
 			int oneSum = array[i];
@@ -40,8 +43,15 @@ public class ThreeSum {
 		return closet;
 	}
 	
-	
-	
+	// Optimisation1
+	public static int findClosestSum2(int[] array, int target) {
+		// sort the array in ascending order
+		for(int i=0; i<array.length; i++) {
+			int subTarget = target - array[i];
+			// meet in the middle??
+		}
+		return 0;
+	}
 	
 	
 	
