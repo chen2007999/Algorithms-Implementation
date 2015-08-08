@@ -20,5 +20,9 @@ public class LinkedListNode {
 	char data() {
 		return c;
 	}
+	
+	void setData(char c) {
+		this.c = c;
+	}
 
 }
