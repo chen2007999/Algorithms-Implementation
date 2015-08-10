@@ -4,3 +4,9 @@
 /MyQueue.class
 /MyQueue$QueueNode.class
 /FixedMultiStack.class
+/StackMin.class
+/StackOfPlates.class
+/StackOfPlates$Stack.class
+/StackOfPlates$StackPlates.class
+/QueueViaStacks.class
+/SortStack.class

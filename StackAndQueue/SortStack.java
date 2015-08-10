@@ -2,6 +2,8 @@ package StackAndQueue;
 
 import java.util.Stack;
 
+import sun.misc.Queue;
+
 public class SortStack {
 
 	Stack<Integer> sortStack(Stack<Integer> stack1) {

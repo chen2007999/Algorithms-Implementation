@@ -47,9 +47,9 @@ public class FixedMultiStack {
 	    return data;
 	}
 	
-	public void push(int stackNum, int value) throws FullStackException {
+	public void push(int stackNum, int value) /*throws FullStackException*/ {
 		if(isFull(stackNum)) {
-			throw new FullStackException();
+			//throw new FullStackException();
 		}
 		sizes[stackNum]++;
 		values[indexOfTop(stackNum)] = value;
