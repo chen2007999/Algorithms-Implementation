@@ -1,5 +1,7 @@
 package TreeAndGraph;
 
+import java.util.ArrayList;
+
 public class TreeNode {
 
 	public TreeNode(int middle) {
@@ -10,5 +12,6 @@ public class TreeNode {
 	public TreeNode right;
 	public int height;
 	public TreeNode parent;
+	public ArrayList<TreeNode> adjacents;
 
 }
