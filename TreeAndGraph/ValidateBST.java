@@ -29,7 +29,7 @@ public class ValidateBST {
 		if (root == null) {
 			return true;
 		}
-		if ((min != null && root.data <= min) || (max != null && root.data > max)) {
+		if ((min != null && root.data < min) || (max != null && root.data >= max)) {
 			return false;
 		}
 		if (!validateBST2Helper(root.left, min, root.data) || !validateBST2Helper(root.right, root.data, max)) {
