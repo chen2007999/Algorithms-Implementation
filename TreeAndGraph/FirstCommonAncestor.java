@@ -79,7 +79,7 @@ public class FirstCommonAncestor {
 		return ready;
 	}
 
-	TreeNode withoutLinksToParents3(TreeNode p, TreeNode q) {
+	TreeNode withLinksToParents3(TreeNode p, TreeNode q) {
 		if (p == q)
 			return null;
 		TreeNode ancestor = p;
@@ -99,7 +99,7 @@ public class FirstCommonAncestor {
 		return n == ancestor;
 	}
 
-	TreeNode withoutLinksToParents4(TreeNode root, TreeNode p, TreeNode q) {
+	TreeNode withLinksToParents4(TreeNode root, TreeNode p, TreeNode q) {
 		if (!covers(root, p) || !covers(root, q))
 			return null;
 		if (covers(p, q)) {
@@ -109,7 +109,7 @@ public class FirstCommonAncestor {
 			return q;
 		}
 		TreeNode sibling = getSibling(p);
-		while(sibling != null && !covers(sibling, q)) {
+		while (sibling != null && !covers(sibling, q)) {
 			sibling = getSibling(sibling.parent);
 		}
 		return sibling.parent;
@@ -132,4 +132,21 @@ public class FirstCommonAncestor {
 		return n.parent.left == n ? n.parent.right : n.parent.left;
 	}
 
+	TreeNode withoutLinksToParents1(TreeNode root, TreeNode p, TreeNode q) {
+		if (!covers(root, p) || !covers(root, q))
+			return null;
+		boolean pOnLeft = covers(root.left, p);
+		boolean qOnLeft = covers(root.left, q);
+		while (pOnLeft == qOnLeft) {
+			if(root == q || root == p) {
+				return root;
+			}
+			root = pOnLeft? root.left : root.right;
+			pOnLeft = covers(root.left, q);
+			qOnLeft = covers(root.left, p);
+		}
+		return root;
+	}
+	
+	
 }
