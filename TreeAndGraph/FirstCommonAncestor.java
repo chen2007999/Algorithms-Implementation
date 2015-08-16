@@ -60,27 +60,76 @@ public class FirstCommonAncestor {
 	}
 
 	TreeNode withLinksToParents2(TreeNode root, TreeNode a, TreeNode b) throws InterruptedException {
-		if(a == b) return a;
+		if (a == b)
+			return a;
 		TreeNode lookUp = null;
 		Queue<TreeNode> q = BFS2(root, a, b, lookUp);
 		HashSet<TreeNode> hash = new HashSet<>();
 		TreeNode ready = lookUp == a ? b : a;
-		while(!q.isEmpty()) {
+		while (!q.isEmpty()) {
 			hash.add(q.dequeue());
 		}
-		while(!hash.contains(lookUp)) {
+		while (!hash.contains(lookUp)) {
 			lookUp = lookUp.parent;
 		}
-		while(ready != lookUp) {
+		while (ready != lookUp) {
 			ready = ready.parent;
 			lookUp = lookUp.parent;
 		}
 		return ready;
 	}
 
-	
-	
-	
-	
-	
+	TreeNode withoutLinksToParents3(TreeNode p, TreeNode q) {
+		if (p == q)
+			return null;
+		TreeNode ancestor = p;
+		while (ancestor != null) {
+			if (isOnPAth(ancestor, q)) {
+				return ancestor;
+			}
+			ancestor = ancestor.parent;
+		}
+		return null;
+	}
+
+	private boolean isOnPAth(TreeNode ancestor, TreeNode n) {
+		while (n != ancestor && n != null) {
+			n = n.parent;
+		}
+		return n == ancestor;
+	}
+
+	TreeNode withoutLinksToParents4(TreeNode root, TreeNode p, TreeNode q) {
+		if (!covers(root, p) || !covers(root, q))
+			return null;
+		if (covers(p, q)) {
+			return p;
+		}
+		if (covers(q, p)) {
+			return q;
+		}
+		TreeNode sibling = getSibling(p);
+		while(sibling != null && !covers(sibling, q)) {
+			sibling = getSibling(sibling.parent);
+		}
+		return sibling.parent;
+	}
+
+	boolean covers(TreeNode root, TreeNode p) {
+		if (root == null) {
+			return false;
+		}
+		if (root == p) {
+			return true;
+		}
+		return covers(root.left, p) || covers(root.right, p);
+	}
+
+	TreeNode getSibling(TreeNode n) {
+		if (n == null || n.parent == null) {
+			return null;
+		}
+		return n.parent.left == n ? n.parent.right : n.parent.left;
+	}
+
 }
