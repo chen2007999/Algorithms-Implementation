@@ -5,17 +5,17 @@ import java.util.ArrayList;
 public class PathsWithSum {
 
 	int result = 0;
-	int pathsWithSum1(TreeNode n, int target) {
+	int pathsWithSum1a(TreeNode n, int target) {
 		if (n == null)
 			return 0;
 		if (n.left != null) {
-			pathsWithSum1(n.left, target);
+			pathsWithSum1a(n.left, target);
 		}
 		sum = 0;
 		counter = 0;
 		result += havePaths(n, target);
 		if (n.right != null) {
-			pathsWithSum1(n.right, target);
+			pathsWithSum1a(n.right, target);
 		}
 		return result;
 	}
@@ -38,6 +38,26 @@ public class PathsWithSum {
 			sum -= n.right.data;
 		}
 		return counter;
+	}
+	
+	int pathsWithSum1b(TreeNode n, int target) {
+		if(n == null) return 0;
+		int pathFromRoot = countPathWithSumFromNode(n, target, 0);
+		int pathOnLeft = pathsWithSum1b(n.left, target);
+		int pathOnRight = pathsWithSum1b(n.right, target);
+		return pathFromRoot + pathOnLeft + pathOnRight;
+	}
+
+	private int countPathWithSumFromNode(TreeNode n, int target, int currentSum) {
+		if(n == null) return 0;
+		currentSum += n.data;
+		int totalPaths = 0;
+		if(currentSum == target) {
+			totalPaths++;
+		}
+		totalPaths += countPathWithSumFromNode(n.left, target, currentSum);
+		totalPaths += countPathWithSumFromNode(n.right, target, currentSum);
+		return totalPaths;
 	}
 
 	ArrayList<Integer> store = new ArrayList<>();
