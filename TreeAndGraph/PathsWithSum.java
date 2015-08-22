@@ -1,10 +1,12 @@
 package TreeAndGraph;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class PathsWithSum {
 
 	int result = 0;
+
 	int pathsWithSum1a(TreeNode n, int target) {
 		if (n == null)
 			return 0;
@@ -22,6 +24,7 @@ public class PathsWithSum {
 
 	int sum = 0;
 	int counter = 0;
+
 	private int havePaths(TreeNode n, int target) {
 		if (n == null)
 			return 0;
@@ -39,9 +42,10 @@ public class PathsWithSum {
 		}
 		return counter;
 	}
-	
+
 	int pathsWithSum1b(TreeNode n, int target) {
-		if(n == null) return 0;
+		if (n == null)
+			return 0;
 		int pathFromRoot = countPathWithSumFromNode(n, target, 0);
 		int pathOnLeft = pathsWithSum1b(n.left, target);
 		int pathOnRight = pathsWithSum1b(n.right, target);
@@ -49,10 +53,11 @@ public class PathsWithSum {
 	}
 
 	private int countPathWithSumFromNode(TreeNode n, int target, int currentSum) {
-		if(n == null) return 0;
+		if (n == null)
+			return 0;
 		currentSum += n.data;
 		int totalPaths = 0;
-		if(currentSum == target) {
+		if (currentSum == target) {
 			totalPaths++;
 		}
 		totalPaths += countPathWithSumFromNode(n.left, target, currentSum);
@@ -60,25 +65,32 @@ public class PathsWithSum {
 		return totalPaths;
 	}
 
-	ArrayList<Integer> store = new ArrayList<>();
-	int pathsWithSum2(TreeNode n, int target) {
-		if(n == null) return 0;
-		pathsWithSum2(n.left, target);
-		pathsWithSum2(n.right, target);
-		
-		int size = store.size();
-		if(size == 0) {
-			store.add(n.data);
-		} else {
-			for (int i = 0; i < size; i++) {
-				int sum = store.get(i) + n.data;
-				if (sum == target)
-					result++;
-				store.add(store.get(i) + n.data);
-			}
-		}		
-		
-		return counter;
-	}
 	
+	int pathsWithSum2(TreeNode n, int target) {
+		Hashtable<Integer, Integer> hash = new Hashtable<>();
+		return pathsWithSum2(n, target, 0,  hash);
+	}
+
+	int pathsWithSum2(TreeNode n, int target, int runningSum, Hashtable<Integer, Integer> hash) {
+		if (n == null)
+			return 0;
+		runningSum += n.data;
+		increment(runningSum, 1, hash);
+		int diff = runningSum - target;
+		int totalPaths = hash.containsKey(diff) ? hash.get(diff) : 0;
+
+		int leftPath = pathsWithSum2(n.left, target, runningSum, hash);
+		int rightPath = pathsWithSum2(n.left, target, runningSum, hash);
+
+		increment(runningSum, -1, hash);
+		return totalPaths + leftPath + rightPath;
+	}
+
+	private void increment(int runningSum, int amount, Hashtable<Integer, Integer> hash) {
+		if (!hash.contains(runningSum)) {
+			hash.put(runningSum, 0);
+		}
+		hash.put(runningSum, hash.get(runningSum) + amount);
+	}
+
 }
