@@ -31,5 +31,11 @@ public class TripleStep {
 		}
 		return store[n];
 	}
-
+	
+	int tripleBruteForce(int n) {
+		if(n < 0) return 0;
+		if(n == 0) return 1;
+		return tripleBruteForce(n-1) + tripleBruteForce(n-2) + tripleBruteForce(n-3);
+	}
+	
 }
