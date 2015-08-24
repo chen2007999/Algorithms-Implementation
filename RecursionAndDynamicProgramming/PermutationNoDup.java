@@ -19,11 +19,13 @@ public class PermutationNoDup {
 	void dfs(ArrayList<Integer> input, boolean[] isSelected, ArrayList<Integer> trace) {
 		int n = input.size();
 		int isSelectedTotal = trace.size();
+		if (isSelectedTotal == n) {
+			result.add(new ArrayList<Integer>(trace));
+			return;
+		}
 
 		for (int i = 0; i < n; i++) {
-			if (i != 0 && input.get(i) == input.get(i - 1)) {
-				continue;
-			}
+
 			if (!isSelected[i]) {
 				isSelected[i] = true;
 				trace.add(input.get(i));
