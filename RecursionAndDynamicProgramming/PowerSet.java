@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class PowerSet {
 
-	ArrayList<ArrayList<Integer>> powerSet(ArrayList<Integer> input) {
+	ArrayList<ArrayList<Integer>> powerSet1(ArrayList<Integer> input) {
 		if (input == null) {
 			return null;
 		}
@@ -38,6 +38,25 @@ public class PowerSet {
 			}
 		}
 
+	}
+	
+	ArrayList<ArrayList<Integer>> powerSet2(ArrayList<Integer> input) {
+		if (input == null) {
+			return null;
+		}
+		if(input.size() == 0) {
+			ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+			result.add(new ArrayList<Integer>());
+			return result;
+		}
+		int num = input.remove(input.size()-1);
+		ArrayList<ArrayList<Integer>> result = powerSet2(input); 
+		for(int i=0; i<result.size(); i++) {
+			ArrayList<Integer> toAdd = new ArrayList<Integer>(result.get(i));
+			toAdd.add(num);
+			result.add(toAdd);
+		}
+		return result;
 	}
 
 }
