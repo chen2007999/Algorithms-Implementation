@@ -23,9 +23,8 @@ public class PermutationNoDup {
 			result.add(new ArrayList<Integer>(trace));
 			return;
 		}
-
+		
 		for (int i = 0; i < n; i++) {
-
 			if (!isSelected[i]) {
 				isSelected[i] = true;
 				trace.add(input.get(i));
