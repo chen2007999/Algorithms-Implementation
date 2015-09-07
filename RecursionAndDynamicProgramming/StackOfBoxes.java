@@ -17,7 +17,18 @@ public class StackOfBoxes {
 		}
 		Hashtable<Box, Integer> hash = new Hashtable<>();
 		int result = 0;
-		StackOfBoxesHelper(stack, result, 0, null, hash);
+		for (Box box : stack) {
+			if (hash.containsKey(box)) {
+				return hash.get(box);
+			}
+			int currentHeight = box.height;
+			stack.remove(box);
+			int nodeHeight = StackOfBoxesHelper(stack, result, currentHeight, box, hash) + box.height;
+			if (!hash.containsKey(box) || hash.get(box) < nodeHeight) {
+				hash.put(box, nodeHeight);
+			}
+			stack.add(box);
+		}
 		return result;
 	}
 
@@ -34,11 +45,11 @@ public class StackOfBoxes {
 			if (hash.containsKey(box)) {
 				return hash.get(box);
 			}
-			if (latest == null || (box.depth < latest.depth && box.height < latest.depth && box.width < latest.width)) {
+			if (box.depth < latest.depth && box.height < latest.depth && box.width < latest.width) {
 				Box temp = latest;
 				int tempHeight = currentHeight;
-				latest = box;
 				currentHeight = currentHeight + box.height;
+				latest = box;
 				stack.remove(box);
 				nodeHeight = StackOfBoxesHelper(stack, result, currentHeight, latest, hash) + box.height;
 				if (!hash.containsKey(box) || hash.get(box) < nodeHeight) {
