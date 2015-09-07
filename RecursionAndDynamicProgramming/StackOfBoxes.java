@@ -27,7 +27,7 @@ public class StackOfBoxes {
 			if (currentHeight > result) {
 				result = currentHeight;
 			}
-			return currentHeight;
+			return 0;
 		}
 		int nodeHeight = 0;
 		for (Box box : stack) {
@@ -40,7 +40,7 @@ public class StackOfBoxes {
 				latest = box;
 				currentHeight = currentHeight + box.height;
 				stack.remove(box);
-				nodeHeight = StackOfBoxesHelper(stack, result, currentHeight, latest, hash);
+				nodeHeight = StackOfBoxesHelper(stack, result, currentHeight, latest, hash) + box.height;
 				if (!hash.containsKey(box) || hash.get(box) < nodeHeight) {
 					hash.put(box, nodeHeight);
 				}
