@@ -1,13 +1,13 @@
 package SortingAndSearching;
 
 public class ListySortedSearch {
-	
+
 	public static void main(String[] args) {
-		int[] listy = {1,2,5,-1,-1,-1};
-		System.out.println(listySortedSearch(listy, 5));
+		int[] listy = { 1, 2, 5, -1, -1, -1 };
+		System.out.println(listySortedSearch1(listy, 5));
 	}
 
-	static int listySortedSearch(int[] listy, int num) {
+	static int listySortedSearch1(int[] listy, int num) {
 		if (listy == null) {
 			return -1;
 		}
@@ -25,6 +25,14 @@ public class ListySortedSearch {
 			}
 		}
 		return helper(listy, left, right, num);
+	}
+
+	static int listySortedSearch2(int[] listy, int num) {
+		int index = 1;
+		while (listy[index] != -1 && listy[index] < num) {
+			index = index * 2;
+		}
+		return helper(listy, index / 2, index, num);
 	}
 
 	private static int helper(int[] listy, int left, int right, int num) {
