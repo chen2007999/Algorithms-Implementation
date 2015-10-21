@@ -4,74 +4,54 @@ import java.util.Hashtable;
 
 public class Coins {
 
-	/*
-	 * int coinsBottomUp(int n) { if (n <= 0) return 0; int[] results = new
-	 * int[n + 1]; results[1] = 1; for (int i = 2; i <= n; i++) { int mid = i /
-	 * 2; int result = 0; for (int j = 1; j <= i / 2; j++) { result +=
-	 * results[j] * results[n - j]; } if (i == 5 || i == 10 || i == 25) {
-	 * result++; } results[i] = result; } return results[n]; }
-	 * 
-	 * int coinsTopDown(int n) { if (n <= 0) return 0; int[] results = new int[n
-	 * + 1]; results[1] = 1; return coinsTopDownHelper(n, results); }
-	 * 
-	 * private int coinsTopDownHelper(int n, int[] results) { if (results[n] !=
-	 * 0) { return results[n]; } int result = 0; int mid = n / 2; for (int i =
-	 * 0; i <= mid; i++) { result += coinsTopDownHelper(i, results) *
-	 * coinsTopDownHelper(n - i, results); if (i == 5 || i == 10 || i == 25) {
-	 * result++; } } results[n] = result; return result; }
-	 */
-
-	int coins1(int target) {
-		return recursion(target, 25);
-	}
-
-	int recursion(int target, int coin) {
-		if (coin > target) {
-			return recursion(target, levelDown(coin));
-		}
-		if (coin == 1) {
+	static int coins(int amount, int[] coins, int index) {
+		if (amount == 0) {
 			return 1;
 		}
-		if (target == 0) {
-			return 1;
+		if (amount < 0) {
+			return 0;
 		}
-		int combination = target / coin;
-		int result = 0;
+		if (amount > 0 && index >= coins.length) {
+			return 0;
+		}
+		return coins(amount - coins[index], coins, index) + coins(amount, coins, index + 1);
 
-		for (int i = 1; i <= combination; i++) {
-			result += recursion(target - i * coin, levelDown(coin));
-		}
-		result += recursion(target, levelDown(coin));
-		return result;
 	}
 
-	int levelDown(int coin) {
-		switch (coin) {
-		case 25:
-			return 10;
-		case 10:
-			return 5;
-		case 5:
-			return 1;
+	static int coinsDP(int amount, int[] coins, int index) {
+		int[][] arr = new int[amount + 1][coins.length + 1];
+		for (int i = 0; i < coins.length + 1; i++) {
+			arr[0][i] = 1;
 		}
-		return coin;
-	}
-
-	int coins2(int n) {
-		int[] denoms = { 25, 10, 5, 1 };
-		return makeChange(n, denoms, 0);
-	}
-
-	private int makeChange(int amount, int[] denoms, int i) {
-		if (i >= denoms.length - 1)
-			return 1;
-		int denomAmount = denoms[i];
-		int ways = 0;
-		for (int j = 0; j * denomAmount <= amount; j++) {
-			int amountRemaining = amount - j * denomAmount;
-			ways += makeChange(amountRemaining, denoms, i + 1);
+		for (int i = 1; i < amount + 1; i++) {
+			arr[i][0] = 0;
 		}
-		return ways;
+		
+		for (int row = 1; row < arr.length; row++) {
+			for (int col = 1; col < arr[0].length; col++) {
+
+				int ways = 0;
+				// include
+				if (coins[col - 1] <= row) {
+					ways += arr[row - coins[col - 1]][col];
+				}
+				// exclude
+				ways += arr[row][col - 1];
+				arr[row][col] = ways;
+			}
+		}
+
+		for (int row = 0; row < arr.length; row++) {
+			for (int col = 0; col < arr[0].length; col++) {
+				System.out.print(arr[row][col] + " ,");
+			}
+			System.out.println(" ");
+		}
+		return arr[amount][coins.length];
 	}
 
+	public static void main(String[] args) {
+		int[] a = { 10,25,50,1,5};
+		System.out.println(coinsDP(100, a, 0));
+	}
 }
